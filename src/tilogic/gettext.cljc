@@ -9,7 +9,7 @@
   [kw m]
   (when (and (keyword? kw)
              (map? m))
-    (assoc-in @i/state [:translations kw] m)))
+    (swap! i/state assoc-in [:translations kw] m)))
 
 (defn available-locales
   "Get all available locales as a `keyword` `list`."

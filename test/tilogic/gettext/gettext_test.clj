@@ -8,9 +8,10 @@
 (deftest add-locale-test
   (testing "valid"
     (with-redefs [i/state (atom {:translations {:test {"1" "2"}}})]
+      (gt/add-locale :zz {"z" "z"})
       (is (= {:translations {:test {"1" "2"}
                              :zz {"z" "z"}}}
-             (gt/add-locale :zz {"z" "z"}))))))
+             @i/state)))))
 
 (deftest available-locales-test
   (testing "valid"
@@ -53,14 +54,16 @@
     (with-redefs [i/state (atom nil)
                   i/language (fn [_] :lang)
                   p/plural-fn (fn [kw] kw)]
+      (gt/set-locale :fr-ca)
       (is (= {:locale :fr-ca
               :language :lang
               :plural-fn :lang}
-             (gt/set-locale :fr-ca)))
+             @i/state))
+      (gt/set-locale :pt-pt)
       (is (= {:locale :pt-pt
               :language :lang
               :plural-fn :pt-pt}
-             (gt/set-locale :pt-pt))))))
+             @i/state)))))
 
 (deftest gettext-test
   (testing "valid"
