@@ -1,0 +1,325 @@
+# French translations for unit_test package
+# Traductions françaises du paquet unit_test.
+# Copyright (C) 2022 THE unit_test'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the unit_test package.
+# Automatically generated, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: unit_test 1.0\n"
+"Report-Msgid-Bugs-To: unit_test@example.com\n"
+"POT-Creation-Date: 2022-08-19 13:50-0400\n"
+"PO-Revision-Date: 2022-08-19 13:50-0400\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.1.1\n"
+
+#: test/gettext/resources/cljd/test2.cljd:7
+msgid "message"
+msgstr "translation"
+
+#: test/gettext/resources/cljd/test2.cljd:7
+msgid "identical except for context"
+msgstr "identical except for context translation"
+
+#: test/gettext/resources/cljd/test2.cljd:7
+msgctxt "context3"
+msgid "identical except for context"
+msgstr "identical except for context translation"
+
+
+#: test/gettext/resources/cljd/test2.cljd:12
+msgid "message with no translation"
+msgstr ""
+
+#: test/gettext/resources/cljd/test2.cljd:15
+msgid "message \nwith \n newlines and no translation"
+msgstr ""
+
+
+# TODO FIX this...
+#: test/gettext/resources/cljd/test1.cljd:23
+msgid "msgstr[n] ( msgstr[0] etc.) in plural messages are not clobbered"
+msgid_plural "msgstr[n] ( msgstr[0] etc.) in plural messages are not clobbered (plural)"
+msgstr[0] "msgstr[n] ( msgstr[0] etc.) in plural messages are not clobbered (0)"
+msgstr[1] "msgstr[n] ( msgstr[0] etc.) in plural messages are not clobbered (1)"
+msgstr[2] "msgstr[n] ( msgstr[0] etc.) in plural messages are not clobbered (2)"
+
+#: test/gettext/resources/cljd/nested/test3.cljd:32
+msgid ""
+"ngettext --- A string that is longer than 80 characters so that ngettext "
+"will wrap the line."
+msgid_plural ""
+"ngettext --- A string that is longer than 80 characters so that ngettext "
+"will wrap the line. (plural)"
+msgstr[0] ""
+"ngettext --- A string that is longer than 80 characters so that ngettext "
+"will wrap the line. (0)"
+msgstr[1] ""
+"ngettext --- A string that is longer than 80 characters so that ngettext "
+"will wrap the line. (1)"
+msgstr[2] ""
+"ngettext --- A string that is longer than 80 characters so that ngettext "
+"will wrap the line. (2)"
+
+#: test/gettext/resources/cljd/nested/test3.cljd:37
+msgid ""
+"Untranslated A string that is extra long so that ngettext will wrap the line "
+"multiple times. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
+"do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+"minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex "
+"ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate "
+"velit esse cillum dolore eu fugiat magna pariatur. Excepteur sint occaecat "
+"cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
+"est laborum."
+msgid_plural ""
+"Untranslated A string that is extra long so that ngettext will wrap the line "
+"multiple times. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
+"do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+"minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex "
+"ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate "
+"velit esse cillum dolore eu fugiat magna pariatur. Excepteur sint occaecat "
+"cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
+"est laborum. (plural)"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: test/gettext/resources/cljd/test2.cljd:14
+msgid "a message"
+msgid_plural "a message plural"
+msgstr[0] "a message translation (0)"
+msgstr[1] "a message translation (1)"
+msgstr[2] "a message translation (2)"
+
+#: test/gettext/resources/cljd/nested/test3.cljd:29
+msgid ""
+"Untranslated: string that is extra long so that gettext will wrap the line "
+"multiple times. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
+"do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+"minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex "
+"ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate "
+"velit esse cillum dolore eu fugiat magna pariatur. Excepteur sint occaecat "
+"cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
+"est laborum."
+msgstr ""
+
+msgid "partially translated singular"
+msgid_plural "partially translated plural"
+msgstr[0] "singular translation (0)"
+msgstr[1] ""
+msgstr[2] "plural translation (2)"
+
+#: test/gettext/resources/cljd/test2.cljd:23
+msgid "plural message with no translation"
+msgid_plural "plural message with no translations"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: test/gettext/resources/cljd/test2.cljd:14
+msgid "message - identical except for context"
+msgid_plural "plural - identical except for context"
+msgstr[0] "message translation (0)"
+msgstr[1] "message translation (1)"
+msgstr[2] "message translation (2)"
+
+#: test/gettext/resources/cljd/test2.cljd:14
+msgctxt "context4"
+msgid "message - identical except for context"
+msgid_plural "plural - identical except for context"
+msgstr[0] "message translation (0)"
+msgstr[1] "message translation (1)"
+msgstr[2] "message translation (2)"
+
+#: test/gettext/resources/cljd/nested/test3.cljd:29
+msgid ""
+"gettext --- A string that is extra long so that gettext will wrap the line "
+"multiple times. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
+"do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+"minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex "
+"ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate "
+"velit esse cillum dolore eu fugiat magna pariatur. Excepteur sint occaecat "
+"cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
+"est laborum."
+msgstr ""
+"gettext --- A string that is extra long so that gettext will wrap the line "
+"multiple times. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
+"do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+"minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex "
+"ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate "
+"velit esse cillum dolore eu fugiat magna pariatur. Excepteur sint occaecat "
+"cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
+"est laborum. translation"
+
+#: test/gettext/resources/cljd/nested/test3.cljd:7
+msgid "trailing whitespace (3)   "
+msgstr "trailing whitespace (3) translation   "
+
+#: test/gettext/resources/cljd/nested/test3.cljd:7
+msgid "   leading whitespace (3)"
+msgstr "   leading whitespace (3) translation"
+
+#: test/gettext/resources/cljd/nested/test3.cljd:7
+msgid "   leading and trailing whitespace (3)"
+msgstr "   leading and traling whitespace (3) translation   "
+
+#: test/gettext/resources/cljd/nested/test3.cljd:37
+msgctxt "context1"
+msgid ""
+"npgettext -- A string that is extra long so that ngettext will wrap the line "
+"multiple times. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
+"do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+"minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex "
+"ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate "
+"velit esse cillum dolore eu fugiat magna pariatur. Excepteur sint occaecat "
+"cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
+"est laborum."
+msgid_plural ""
+"npgettext -- A string that is extra long so that ngettext will wrap the line "
+"multiple times. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
+"do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+"minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex "
+"ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate "
+"velit esse cillum dolore eu fugiat magna pariatur. Excepteur sint occaecat "
+"cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
+"est laborum."
+msgstr[0] ""
+"npgettext -- A string that is extra long so that ngettext will wrap the line "
+"multiple times. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
+"do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+"minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex "
+"ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate "
+"velit esse cillum dolore eu fugiat magna pariatur. Excepteur sint occaecat "
+"cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
+"est laborum. (0)"
+msgstr[1] ""
+"npgettext -- A string that is extra long so that ngettext will wrap the line "
+"multiple times. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
+"do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+"minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex "
+"ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate "
+"velit esse cillum dolore eu fugiat magna pariatur. Excepteur sint occaecat "
+"cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
+"est laborum. (1)"
+msgstr[2] ""
+"npgettext -- A string that is extra long so that ngettext will wrap the line "
+"multiple times. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
+"do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+"minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex "
+"ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate "
+"velit esse cillum dolore eu fugiat magna pariatur. Excepteur sint occaecat "
+"cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
+"est laborum. (2)"
+
+#: test/gettext/resources/cljd/nested/test3.cljd:11
+msgid "untranslated with whitespace in msgstr"
+msgstr "              "
+
+#: test/gettext/resources/cljd/nested/test3.cljd:14
+msgid "untranslated with whitespace in plural messages"
+msgid_plural "untranslated with whitespace plural"
+msgstr[0] "     "
+msgstr[1] ""
+msgstr[2] "    "
+
+#: test/gettext/resources/cljd/nested/test3.cljd:26
+msgid ""
+"gettext --- A string that is longer than 80 characters so that gettext will "
+"wrap the line."
+msgstr "translation"
+
+#: test/gettext/resources/cljd/test2.cljd:28
+msgctxt "context1"
+msgid "pgettext message"
+msgstr "pgettext message translation"
+
+#: test/gettext/resources/cljd/nested/test3.cljd:37
+msgid ""
+"ngettext --- A string that is extra long so that ngettext will wrap the line "
+"multiple times. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
+"do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+"minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex "
+"ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate "
+"velit esse cillum dolore eu fugiat magna pariatur. Excepteur sint occaecat "
+"cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
+"est laborum."
+msgid_plural ""
+"ngettext --- A string that is extra long so that ngettext will wrap the line "
+"multiple times. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
+"do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+"minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex "
+"ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate "
+"velit esse cillum dolore eu fugiat magna pariatur. Excepteur sint occaecat "
+"cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
+"est laborum."
+msgstr[0] ""
+"ngettext --- A string that is extra long so that ngettext will wrap the line "
+"multiple times. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
+"do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+"minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex "
+"ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate "
+"velit esse cillum dolore eu fugiat magna pariatur. Excepteur sint occaecat "
+"cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
+"est laborum. (0)"
+msgstr[1] ""
+"ngettext r - A string that is extra long so that ngettext will wrap the line "
+"multiple times. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
+"do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+"minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex "
+"ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate "
+"velit esse cillum dolore eu fugiat magna pariatur. Excepteur sint occaecat "
+"cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
+"est laborum. (1)"
+msgstr[2] ""
+"ngettext r - A string that is extra long so that ngettext will wrap the line "
+"multiple times. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed "
+"do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad "
+"minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex "
+"ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate "
+"velit esse cillum dolore eu fugiat magna pariatur. Excepteur sint occaecat "
+"cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id "
+"est laborum. (2)"
+
+#: test/gettext/resources/cljd/test2.cljd:14
+msgid "message with escaped double quotes at \"end\""
+msgstr "message with escaped double quotes at \"end\" translated"
+
+#: test/gettext/resources/cljd/test2.cljd:23
+msgctxt "context1"
+msgid "npgettext message with no translation"
+msgid_plural "npgettext message with no translation (plural)"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: test/gettext/resources/cljd/test1.cljd:23
+msgid "missing msgstr 2"
+msgid_plural "missing msgstr 2 plural"
+msgstr[0] "missing msgstr 2 (0)"
+msgstr[1] "missing msgstr 2 (1)"
+
+#: test/gettext/resources/cljd/test2.cljd:14
+msgid "message \nwith \n newlines"
+msgstr "message \nwith \n newlines translated"
+
+#: test/gettext/resources/cljd/test2.cljd:23
+msgctxt "context2"
+msgid "npgettext message"
+msgid_plural "npgettext message (plural)"
+msgstr[0] "npgettext message translated (0)"
+msgstr[1] "npgettext message translated (1)"
+msgstr[2] "npgettext message translated (2)"
+
+#: test/gettext/resources/cljd/test2.cljd:14
+msgid "message with escaped \"double quotes\" not at end"
+msgstr "message with escaped \"double quotes\" not at end translated"
+
+#: test/gettext/resources/cljd/test2.cljd:14
+msgid "A string that is extra long but no line wrapping has been applied. It just goes on and on and on..."
+msgstr "A string that is extra long but no line wrapping has been applied. It just goes on and on and on... translated"

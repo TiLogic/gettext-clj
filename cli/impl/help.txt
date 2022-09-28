@@ -1,0 +1,43 @@
+Usage: gtclj [OPTION] [LOCALES]...
+
+Extract translation strings from Clojure source files (.clj, .cljs, .cljc,
+.cljx, .cljd), or convert .po files to JSON format for use with gtclj
+(gettext Clojure) library.
+
+Function signatures must match one of:
+  (gettext msgid)
+  (pgettext msgctxt msgid)
+  (ngettext msgid1 msgid2 n)
+  (npgettext msgctxt msgid1 msgid2 n)
+
+Input files:
+  -s            (s)ource input files from DIRECTORY
+
+Input file encoding:
+Input .po files must be UTF-8 encoded.
+
+Locales:
+LOCALES ...     Trailing arguments interpreted as locales in the form:
+                `ll` or `ll_CC`, where `ll` is an ISO 639-1 2-letter language
+                code and `CC` is an ISO 3166-1 country code.
+                E.g. en_CA en_US fr fr_CA
+
+Output files:
+  -j            create .(j)son files from .po files [excludes use of (p) flag]
+  -o            (o)utput files to DIRECTORY [default=current working directory]
+  -p            create .(p)o files from .clj* files [excludes use of (j) flag]
+
+Output details:
+  -a            (a)pplication name [default=default]
+  -c            (c)omment keyword [default=TRANSLATORS]
+  -e            "msgid-bugs-address" (e)mail address [default=default]
+  -n            .pot file (n)ame file [default=messages]
+  -s            (s)ource input files DIRECTORY [required]
+  -v            application (v)ersion [default=default]
+
+Information:
+  -h  display this help and exit
+
+For additional information see the following man pages:
+  xgettext, msginit (.po creation)
+  msgfmt (.json creation)

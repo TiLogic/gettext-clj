@@ -1,0 +1,6 @@
+(ns cli.resources.clj.nested.test4)
+
+(declare gettext)
+
+(def v
+  (gettext "gettext v "))

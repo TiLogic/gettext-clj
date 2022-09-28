@@ -1,0 +1,27 @@
+# French translations for unit_test package
+# Traductions françaises du paquet unit_test.
+# Copyright (C) 2022 THE unit_test'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the unit_test package.
+# Automatically generated, 2022.
+#
+msgid ""
+msgstr "translation"
+"Project-Id-Version: unit_test 1.0\n"
+"Report-Msgid-Bugs-To: unit_test@example.com\n"
+"POT-Creation-Date: 2022-08-19 13:50-0400\n"
+"PO-Revision-Date: 2022-08-19 13:50-0400\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: test/gettext/resources/cljd/test2.cljd:7
+
+msgstr "missing msgid"
+
+#: test/gettext/resources/cljd/test2.cljd:14
+msgid "ok"
+msgstr "ok"

@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+set -euC -o pipefail
+shopt -s inherit_errexit
+
+# extract translatable strings from .cljd files and create a `.pot` (template) file and ready-to-translate `.po` files for each locale
+
+if ((BASH_VERSINFO[0] <= 4)); then
+  if ((BASH_VERSINFO[0] < 4)) || ((BASH_VERSINFO[1] < 2)); then
+    echo "ERROR: Bash (version 4.2 or above) required."
+    exit 125
+  fi
+fi
+
+# @required for correct plural forms in generated .po files
+# @see https://www.gnu.org/software/gettext/manual/gettext.html#msginit-Invocation
+export GETTEXTCLDRDIR=cli/cldr
+
+# "no colon means no arg, one colon means an arg, and two colons means optional arg
+# "@see https://stackoverflow.com/a/21128172/
+while getopts 'hpjs:o:n::a::e::v::c::' arg; do
+  case "${arg}" in
+  h) help="true" ;;
+  p) po="true" ;;
+  j) json="true" ;;
+  s) source_dir="${OPTARG}" ;;
+  o) output_dir="${OPTARG}" ;;
+  n) pot_name="${OPTARG}" ;;
+  a) app_name="${OPTARG}" ;;
+  v) app_version="${OPTARG}" ;;
+  e) pot_email="${OPTARG}" ;;
+  c) comment_keyword="${OPTARG}" ;;
+  *) err "unexpected argument: ${arg}" ;;
+  esac
+done
+
+help="${help:-false}"
+
+if [[ "${help}" == true ]]; then
+  cat cli/impl/help.txt
+  exit 0
+fi
+
+po="${po:-false}"
+json="${json:-false}"
+source_dir="${source_dir:?ERROR: missing source directory}"
+output_dir="${output_dir:-$PWD}"
+pot_name="${pot_name:-messages}"
+app_name="${app_name:-default}"
+app_version="${app_version:-default}"
+pot_email="${pot_email:-default}"
+comment_keyword="${comment_keyword:-TRANSLATORS}"
+locales=()
+all_args=("$@")
+first_locale="$((OPTIND - 1))"
+pot_file="${output_dir}/${pot_name}.pot"
+
+if [[ "${po}" == true ]] && [[ "${json}" == true ]]; then
+  echo "ERROR: cannot use both -p 'po file' and -j 'json file' flags at the same time"
+  exit 125
+fi
+
+if ! [[ -d "${source_dir}" ]]; then
+  echo "ERROR: ${source_dir} directory does not exist"
+  exit 125
+fi
+
+if [[ "${po}" == true ]]; then
+  source cli/impl/extract.sh
+elif [[ "${json}" == true ]]; then
+  source cli/impl/json.sh
+else
+  echo "ERROR: -p 'po file' or -j 'json file' required"
+  exit 125
+fi
