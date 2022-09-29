@@ -356,8 +356,10 @@
    :ga plural5
    :ar plural6})
 
+(def  en-plural (:en plurals))
+
 (defn plural-fn
   "Returns a function that finds the plural translation index of language `lang` parameter."
   [lang]
   ;; don't break ngettext if plural for the current locale doesn't exist
-  (get plurals lang plural1))
+  (get plurals lang en-plural))

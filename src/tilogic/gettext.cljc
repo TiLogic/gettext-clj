@@ -36,11 +36,6 @@
   []
   (p/plural-fn (:locale @i/state)))
 
-(defn translations
-  "Get the translations `map` for all available locales."
-  []
-  (:translations @i/state))
-
 (defn remove-locale
   "Remove locale `kw` from available locales."
   [locale]
@@ -52,6 +47,16 @@
   (when-let [lang (i/language locale)]
     (when (contains? supported-languages lang)
       (swap! i/state assoc :language lang :locale locale))))
+
+(defn supported-locale?
+  "Determine if a locale `keyword` is supported by gettext-clj"
+  [locale]
+  (contains? supported-languages (i/language locale)))
+
+(defn translations
+  "Get the translations `map` for all available locales."
+  []
+  (:translations @i/state))
 
 ;; @performance
 ;; https://www.tiagoespinha.net/2016/12/clojure-beware-of-the-partial/
@@ -67,21 +72,19 @@
 
 (defn ngettext
   [msgid1 msgid2 n & [locale]]
-  (let [loc (or locale (:locale @i/state))
-        index ((p/plural-fn loc) n)
-        plurals (get-in @i/state [:translations loc msgid1])]
-    (or (get plurals index)
-        ;; if no translation found return the appropriate english string
-        (if (> index 0)
-          msgid2
-          msgid1))))
+  (if-not (number? n)
+    msgid1
+    (let [loc (or locale (:locale @i/state))
+          plurals (get-in @i/state [:translations loc msgid1])]
+      (or (get plurals ((p/plural-fn loc) n))
+          ;; if no translation found return the appropriate english string
+          (get [msgid1 msgid2] (p/en-plural n) msgid1)))))
 
 (defn npgettext
   [msgctxt msgid1 msgid2 n & [locale]]
-  (let [loc (or locale (:locale @i/state))
-        index ((p/plural-fn loc) n)
-        plurals (get-in @i/state [:translations loc msgctxt msgid1])]
-    (or (get plurals index)
-        (if (> index 0)
-          msgid2
-          msgid1))))
+  (if-not (number? n)
+    msgid1
+    (let [loc (or locale (:locale @i/state))
+          plurals (get-in @i/state [:translations loc msgctxt msgid1])]
+      (or (get plurals ((p/plural-fn loc) n))
+          (get [msgid1 msgid2] (p/en-plural n) msgid1)))))
