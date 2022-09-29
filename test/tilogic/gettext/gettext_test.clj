@@ -39,12 +39,6 @@
       (is (= identity
              (gt/plural-fn))))))
 
-(deftest translations-test
-  (testing "valid"
-    (with-redefs [i/state (atom {:translations {:test {}}})]
-      (is (= {:test {}}
-             (gt/translations))))))
-
 (deftest remove-locale-test
   (testing "valid"
     (with-redefs [i/state (atom {:translations {:test {"a" "b"}}})]
@@ -61,6 +55,21 @@
       (is (= {:locale :fr-ca
               :language :lang}
              @i/state)))))
+
+(deftest supported-locale?-test
+  (testing "valid"
+    (is (= true
+           (gt/supported-locale? :zh-tw)))
+    (is (= false
+           (gt/supported-locale? :not-a-locale)))
+    (is (= false
+           (gt/supported-locale? nil)))))
+
+(deftest translations-test
+  (testing "valid"
+    (with-redefs [i/state (atom {:translations {:test {}}})]
+      (is (= {:test {}}
+             (gt/translations))))))
 
 (deftest gettext-test
   (testing "valid"
@@ -90,15 +99,17 @@
       (is (= "untranslated"
              (gt/pgettext "context" "untranslated")))
       (is (= "message"
-             (gt/pgettext "doesnotexist" "message")))
+             (gt/pgettext "notacontext" "message")))
       (is (= "dtranslation"
              (gt/pgettext "dcontext" "dmessage" :dynamic)))
       (is (= "duntranslated"
              (gt/pgettext "dcontext" "duntranslated" :dynamic)))
       (is (= "dmessage"
-             (gt/pgettext "doesnotexist" "dmessage" :dynamic)))
+             (gt/pgettext "dnotacontext" "dmessage" :dynamic)))
       (is (= nil
              (gt/pgettext "context" nil nil)))
+      (is (= nil
+             (gt/pgettext "notacontext" nil nil)))
       (is (= nil
              (gt/pgettext nil nil nil))))))
 
@@ -106,74 +117,92 @@
   (testing "valid"
     (with-redefs [i/state (atom {:locale :test
                                  :translations
-                                 {:test {"message with plurals" ["index 0 (singular)" "index 1 (plural)" "index 2 (plural)"]}
-                                  :dynamic {"dmessage with plurals" ["dindex 0 (singular)" "dindex 1 (plural)" "dindex 2 (plural)"]}}})
-                  p/plural-fn (fn [_] identity)]
-      (is (= "index 0 (singular)"
+                                 {:test {"message with plurals" ["index 0" "index 1" "index 2"]}
+                                  :dynamic {"dmessage with plurals" ["dindex 0" "dindex 1" "dindex 2"]}}})
+                  p/plural-fn (fn [loc]
+                                (if (= loc :test)
+                                  identity
+                                  (fn [n] (if (< n 2) 0 n))))]
+      (is (= "index 0"
              (gt/ngettext "message with plurals" "plural message" 0)))
-      (is (= "index 1 (plural)"
+      (is (= "index 1"
              (gt/ngettext "message with plurals" "plural message" 1)))
-      (is (= "index 2 (plural)"
+      (is (= "index 2"
              (gt/ngettext "message with plurals" "plural message" 2)))
       (is (= "plural message"
              (gt/ngettext "message with plurals" "plural message" 99)))
-      (is (= "untranslated"
-             (gt/ngettext "untranslated" "untranslated plural" 0)))
       (is (= "untranslated plural"
+             (gt/ngettext "untranslated" "untranslated plural" 0)))
+      (is (= "untranslated"
              (gt/ngettext "untranslated" "untranslated plural" 1)))
-      (is (= "dindex 0 (singular)"
+      (is (= "untranslated plural"
+             (gt/ngettext "untranslated" "untranslated plural" 2)))
+      (is (= "dindex 0"
              (gt/ngettext "dmessage with plurals" "dplural message" 0 :dynamic)))
-      (is (= "dindex 1 (plural)"
+      (is (= "dindex 0"
              (gt/ngettext "dmessage with plurals" "dplural message" 1 :dynamic)))
-      (is (= "dindex 2 (plural)"
+      (is (= "dindex 2"
              (gt/ngettext "dmessage with plurals" "dplural message" 2 :dynamic)))
       (is (= "dplural message"
              (gt/ngettext "dmessage with plurals" "dplural message" 99 :dynamic)))
-      (is (= "duntranslated"
-             (gt/ngettext "duntranslated" "duntranslated plural" 0 :dynamic)))
       (is (= "duntranslated plural"
+             (gt/ngettext "duntranslated" "duntranslated plural" 0 :dynamic)))
+      (is (= "duntranslated"
              (gt/ngettext "duntranslated" "duntranslated plural" 1 :dynamic)))
+      (is (= "duntranslated plural"
+             (gt/ngettext "duntranslated" "duntranslated plural" 2 :dynamic)))
       (is (= nil
              (gt/ngettext nil nil 1)))
-      (is (thrown? ClassCastException
-                   (gt/ngettext "throws if n" "is not a number" :one))))))
+      (is (= "message with plurals"
+             (gt/ngettext "message with plurals" "plural message" :not-number))))))
 
 (deftest npgettext-test
   (testing "valid"
     (with-redefs [i/state (atom {:locale :test
                                  :translations
-                                 {:test {"context" {"message with plurals" ["index 0 (singular)" "index 1 (plural)" "index 2 (plural)"]}}
-                                  :dynamic {"dcontext" {"dmessage with plurals" ["dindex 0 (singular)" "dindex 1 (plural)" "dindex 2 (plural)"]}}}})
-                  p/plural-fn (fn [_] identity)]
-      (is (= "index 0 (singular)"
+                                 {:test {"context" {"message with plurals" ["index 0" "index 1" "index 2"]}}
+                                  :dynamic {"dcontext" {"dmessage with plurals" ["dindex 0" "dindex 1" "dindex 2"]}}}})
+                  p/plural-fn (fn [loc]
+                                (if (= loc :test)
+                                  identity
+                                  (fn [n] (if (< n 2) 0 n))))]
+      (is (= "index 0"
              (gt/npgettext "context" "message with plurals" "plural message" 0)))
-      (is (= "index 1 (plural)"
+      (is (= "index 1"
              (gt/npgettext "context" "message with plurals" "plural message" 1)))
-      (is (= "index 2 (plural)"
+      (is (= "index 2"
              (gt/npgettext "context" "message with plurals" "plural message" 2)))
       (is (= "plural message"
              (gt/npgettext "context" "message with plurals" "plural message" 99)))
-      (is (= "untranslated"
-             (gt/npgettext "context" "untranslated" "untranslated plural" 0)))
       (is (= "untranslated plural"
+             (gt/npgettext "context" "untranslated" "untranslated plural" 0)))
+      (is (= "untranslated"
              (gt/npgettext "context" "untranslated" "untranslated plural" 1)))
-      (is (= "dindex 0 (singular)"
+      (is (= "untranslated plural"
+             (gt/npgettext "context" "untranslated" "untranslated plural" 2)))
+      (is (= "dindex 0"
              (gt/npgettext "dcontext" "dmessage with plurals" "dplural message" 0 :dynamic)))
-      (is (= "dindex 1 (plural)"
+      (is (= "dindex 0"
              (gt/npgettext "dcontext" "dmessage with plurals" "dplural message" 1 :dynamic)))
-      (is (= "dindex 2 (plural)"
+      (is (= "dindex 2"
              (gt/npgettext "dcontext" "dmessage with plurals" "dplural message" 2 :dynamic)))
       (is (= "dplural message"
              (gt/npgettext "dcontext" "dmessage with plurals" "dplural message" 99 :dynamic)))
-      (is (= "duntranslated"
-             (gt/npgettext "dcontext" "duntranslated" "duntranslated plural" 0 :dynamic)))
       (is (= "duntranslated plural"
+             (gt/npgettext "dcontext" "duntranslated" "duntranslated plural" 0 :dynamic)))
+      (is (= "duntranslated"
              (gt/npgettext "dcontext" "duntranslated" "duntranslated plural" 1 :dynamic)))
+      (is (= "duntranslated plural"
+             (gt/npgettext "dcontext" "duntranslated" "duntranslated plural" 2 :dynamic)))
       (is (= nil
              (gt/npgettext "context" nil nil 1 nil)))
-      (is (= nil
-             (gt/npgettext "doesnotexist" "message with plurals"  nil 1 nil)))
+      (is (= "message with plurals"
+             (gt/npgettext "notacontext" "message" "message with plurals" 0 nil)))
+      (is (= "message"
+             (gt/npgettext "notacontext" "message" "message with plurals" 1 nil)))
+      (is (= "message with plurals"
+             (gt/npgettext "notacontext" "message" "message with plurals" 2 nil)))
       (is (= nil
              (gt/npgettext nil nil nil 1 nil)))
-      (is (thrown? ClassCastException
-                   (gt/npgettext "context" "throws if n" "is not a number" :one nil))))))
+      (is (= "message with plurals"
+             (gt/npgettext "context" "message with plurals" "plural message" :not-number))))))

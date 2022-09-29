@@ -585,5 +585,5 @@
 
 (deftest plural-fn-test
   (testing "valid"
-    (is (fn? (p/plural-fn :en)))
+    (is (fn? (p/plural-fn :uk)))
     (is (fn? (p/plural-fn :not-a-locale)))))
