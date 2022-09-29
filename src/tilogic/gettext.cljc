@@ -3,13 +3,18 @@
    [tilogic.gettext.plurals :as p]
    [tilogic.gettext.impl :as i]))
 
+(def supported-languages
+  "`set` of all language `keyword`s supported by gettext-clj."
+  (set (keys p/plurals)))
+
 (defn add-locale
   "Add locale `kw` and translations map `m` to available locales. 
   Returns updated translations `map` on success or `nil` on error."
-  [kw m]
-  (when (and (keyword? kw)
-             (map? m))
-    (swap! i/state assoc-in [:translations kw] m)))
+  [locale m]
+  (when-let [lang (i/language locale)]
+    (and (contains? supported-languages lang)
+         (map? m))
+    (swap! i/state assoc-in [:translations locale] m)))
 
 (defn available-locales
   "Get all available locales as a `keyword` `list`."
@@ -29,12 +34,7 @@
 (defn plural-fn
   "Get the plural `function` for the current locale."
   []
-  (:plural-fn @i/state))
-
-(defn supported-locales
-  "Get `list` of all language `keyword`s supported by gettext-clj."
-  []
-  (keys p/plurals))
+  (p/plural-fn (:locale @i/state)))
 
 (defn translations
   "Get the translations `map` for all available locales."
@@ -42,48 +42,41 @@
   (:translations @i/state))
 
 (defn set-locale
-  "Sets the language/locale used by `gettext` functions. `locale` should a `keyword` the form: `:ll-cc`, where `ll` is an ISO 639-1 2-letter language code and `cc` is an ISO 3166-1 country code. E.g. `:fr-ca`, `:pt-br`, `:zh-tw`. Returns `nil` on error."
+  "Sets the language/locale used by `gettext` functions. `locale` should a `keyword` the form: `:ll` or `:ll-cc`, where `ll` is an ISO 639-1 2-letter language code and `cc` is an ISO 3166-1 country code. E.g. `:nl` `:fr-ca`, `:pt-br`, `:zh-tw`. Returns `nil` on error."
   [locale]
-  (when (keyword? locale)
-    (when-let [lang (i/language locale)]
-      (swap! i/state
-             assoc
-             :language lang
-             :locale locale
-             :plural-fn
-             ;; Portuguese is the only language with a locale-specific plural function
-             (p/plural-fn (if (= locale :pt-pt)
-                            :pt-pt
-                            lang))))))
+  (when-let [lang (i/language locale)]
+    (when (contains? supported-languages lang)
+      (swap! i/state assoc :language lang :locale locale))))
 
 ;; @performance
 ;; https://www.tiagoespinha.net/2016/12/clojure-beware-of-the-partial/
 ;; unroll get-in?  https://stackoverflow.com/a/36803237
 (defn gettext
   [msgid & [locale]]
+  ;; if no translation found return the original english string
   (get-in @i/state [:translations (or locale (:locale @i/state)) msgid] msgid))
 
 (defn pgettext
   [msgctxt msgid & [locale]]
-  ;; if no translation found return the original (english) string
   (get-in @i/state [:translations (or locale (:locale @i/state)) msgctxt msgid] msgid))
 
 (defn ngettext
   [msgid1 msgid2 n & [locale]]
-  (let [index ((:plural-fn @i/state) n)
-        plurals (get-in @i/state [:translations (or locale (:locale @i/state)) msgid1])]
+  (let [loc (or locale (:locale @i/state))
+        index ((p/plural-fn loc) n)
+        plurals (get-in @i/state [:translations loc msgid1])]
     (or (get plurals index)
-        ;; if no translation found return the original pluralized (english) string
+        ;; if no translation found return the appropriate english string
         (if (> index 0)
           msgid2
           msgid1))))
 
 (defn npgettext
   [msgctxt msgid1 msgid2 n & [locale]]
-  (let [index ((:plural-fn @i/state) n)
-        plurals (get-in @i/state [:translations (or locale (:locale @i/state)) msgctxt msgid1])]
+  (let [loc (or locale (:locale @i/state))
+        index ((p/plural-fn loc) n)
+        plurals (get-in @i/state [:translations loc msgctxt msgid1])]
     (or (get plurals index)
-        ;; if no translation found return the original pluralized (english) string
         (if (> index 0)
           msgid2
           msgid1))))

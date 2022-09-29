@@ -37,20 +37,23 @@
   E.g. `:fr-ca`, `:pt-br`, `:zh-tw`"
   [kw]
   (when (keyword? kw)
-    (let [locale (name kw)]
-      (if (or (contains? zh-hans locale)
-              ;; zh-hans-us etc. are possible
-              (str/starts-with? locale "zh-hans"))
-        :zh-hans
-        (if (or (contains? zh-hant locale)
-                (str/starts-with? locale "zh-hant"))
-          :zh-hant
-          (if (str/includes? locale "-")
-            (-> locale
-                (str/split #"-")
-                first
-                ((fn [loc]
-                   (when (and (string? loc)
-                              (not (str/blank? loc)))
-                     (keyword loc)))))
-            kw))))))
+    ;; Portuguese has a locale-specific plurals, thus is considered as a 'base language'
+    (if (= kw :pt-pt)
+      :pt-pt
+      (let [locale (name kw)]
+        (if (or (contains? zh-hans locale)
+                ;; zh-hans-us etc. are possible
+                (str/starts-with? locale "zh-hans"))
+          :zh-hans
+          (if (or (contains? zh-hant locale)
+                  (str/starts-with? locale "zh-hant"))
+            :zh-hant
+            (if (str/includes? locale "-")
+              (-> locale
+                  (str/split #"-")
+                  first
+                  ((fn [loc]
+                     (when (and (string? loc)
+                                (not (str/blank? loc)))
+                       (keyword loc)))))
+              kw)))))))

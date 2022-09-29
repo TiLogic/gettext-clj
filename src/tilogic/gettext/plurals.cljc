@@ -357,7 +357,7 @@
    :ar plural6})
 
 (defn plural-fn
-  "Returns a function that finds the plural translation index of the supplied locale `kw`"
-  [kw]
+  "Returns a function that finds the plural translation index of language `lang` parameter."
+  [lang]
   ;; don't break ngettext if plural for the current locale doesn't exist
-  (get plurals kw plural1))
+  (get plurals lang plural1))
