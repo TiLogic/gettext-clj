@@ -45,6 +45,13 @@
       (is (= {:test {}}
              (gt/translations))))))
 
+(deftest remove-locale-test
+  (testing "valid"
+    (with-redefs [i/state (atom {:translations {:test {"a" "b"}}})]
+      (gt/remove-locale :test)
+      (is (= false
+             (contains? (:translations @i/state) :test))))))
+
 (deftest set-locale-test
   (testing "valid"
     (with-redefs [i/state (atom nil)

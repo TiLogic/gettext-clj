@@ -41,6 +41,11 @@
   []
   (:translations @i/state))
 
+(defn remove-locale
+  "Remove locale `kw` from available locales."
+  [locale]
+  (swap! i/state update :translations dissoc locale))
+
 (defn set-locale
   "Sets the language/locale used by `gettext` functions. `locale` should a `keyword` the form: `:ll` or `:ll-cc`, where `ll` is an ISO 639-1 2-letter language code and `cc` is an ISO 3166-1 country code. E.g. `:nl` `:fr-ca`, `:pt-br`, `:zh-tw`. Returns `nil` on error."
   [locale]
