@@ -1,3 +1,11 @@
 test/cli/output/generated
+test/cljs-test-runner-out
 dev/
 dev.md
+analysis_options.yaml
+bin/
+lib/
+pubspec.lock
+pubspec.yaml
+src/tilogic/main.cljc
+test/cljd-out/

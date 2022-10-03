@@ -6,4 +6,18 @@
                                io.github.cognitect-labs/test-runner
                                {:git/tag "v0.5.1" :git/sha "dfb30dd"}}
                   :main-opts ["-m" "cognitect.test-runner"]
-                  :exec-fn cognitect.test-runner.api/test}}}
+                  :exec-fn cognitect.test-runner.api/test}
+           :test-cljs {:extra-paths ["test"]
+                       :extra-deps {org.clojure/clojurescript {:mvn/version "1.11.60"}
+                                    olical/cljs-test-runner {:mvn/version "3.8.0"}}
+                       :main-opts ["-m" "cljs-test-runner.main"
+                                   "-o" "test/cljs-test-runner-out"]}
+           :test-cljd {:extra-paths ["test"]
+                       :extra-deps {org.clojure/clojure {:mvn/version "1.10.1"}
+                                    tensegritics/clojuredart
+                                    {:git/url "git@github.com:tensegritics/ClojureDart.git"
+                                     ; or "https://github.com/tensegritics/ClojureDart.git"
+                                     :sha "234f06b3d91d3149acf00d429f6ad29610a5c5d0"}}
+                       :main-opts ["-m" "cljd.build"]}}
+ :cljd/opts {:kind :dart
+             :main tilogic.main}}

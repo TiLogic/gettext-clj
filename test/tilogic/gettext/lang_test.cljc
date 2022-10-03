@@ -1,6 +1,6 @@
-(ns tilogic.gettext.impl-test
+(ns tilogic.gettext.lang-test
   (:require
-   [tilogic.gettext.impl :as l]
+   [tilogic.impl.lang :as l]
    [clojure.test :refer [deftest is testing]]))
 
 (deftest language-test
@@ -9,6 +9,10 @@
            (l/language :en)))
     (is (= :fr
            (l/language :fr-ca)))
+    (is (= :pt
+           (l/language :pt-br)))
+    (is (= :pt-pt
+           (l/language :pt-pt)))
     (is (= :zh-hant
            (l/language :zh)))
     (is (= :zh-hant

@@ -1,8 +1,6 @@
-(ns tilogic.gettext.impl
+(ns tilogic.impl.lang
   (:require
    [clojure.string :as str]))
-
-(def state (atom nil))
 
 ;; @note assume hans for CN, SG, hant for TW, HK, MO unless specified
 ;; simplified chinese
@@ -29,15 +27,11 @@
     "zh-hant-cn"
     "zh-hant-sg"})
 
-;; TODO validate the language against a set derrived from https://github.com/unicode-org/cldr-json/blob/main/cldr-json/cldr-localenames-full/main/en/languages.json ? 
-(defn language
-  "Determine the base language from a given locale `kw`. Returns `keyword` or `nil` if not a valid locale.
-  Keyword should be in the form: `:ll-cc`, where `ll` is an ISO 639-1 2-letter language
-  code and `cc` is an ISO 3166-1 country code.
-  E.g. `:fr-ca`, `:pt-br`, `:zh-tw`"
+;; Determine the base language from a given locale `kw`. Returns `keyword` or `nil` if not a valid locale. Keyword should be in the form: `:ll-cc`, where `ll` is an ISO 639-1 2-letter language code and `cc` is an ISO 3166-1 country code. E.g. `:fr-ca`, `:pt-br`, `:zh-tw`
+(defn ^:internal language
   [kw]
   (when (keyword? kw)
-    ;; Portuguese has a locale-specific plurals, thus is considered as a 'base language'
+    ;; Portuguese has a locale-specific plurals, thus is considered a 'base language'
     (if (= kw :pt-pt)
       :pt-pt
       (let [locale (name kw)]

@@ -1,35 +1,35 @@
-(ns tilogic.gettext.plurals)
+(ns tilogic.impl.plurals)
 
 ;; @see https://unicode-org.github.io/cldr-staging/charts/41/supplemental/language_plural_rules.html, http://unicode.org/reports/tr35/tr35-numbers.html#Operands and https://unicode.org/reports/tr35/tr35-numbers.html#51-plural-rules-syntax 
 ;; "`and` binds more tightly than `or`. So X `or` Y `and` Z is interpreted as (X `or` (Y `and` Z))."
 
-(defn- in-nat-subset?
+(defn ^:internal in-nat-subset?
   "Determine if integer `n` is within the subset of natural numbers {`start`, `start+1`,... `end`}."
   [n start end]
   (and (>= n start)
        (<= n end)))
 
 ;; none
-(defn- plural1
+(defn ^:internal plural1
   [_]
   0)
 
 ;; one: n = 1
-(defn- plural2a
+(defn ^:internal plural2a
   [n]
   (if (= n 1)
     0
     1))
 
 ;; one: i = 0,1 / one: n = 0..1
-(defn- plural2b
+(defn ^:internal plural2b
   [n]
   (if (in-nat-subset? n 0 1)
     0
     1))
 
 ;; one: i = 1,2,3 or i % 10 != 4,6,9
-(defn- plural2c
+(defn ^:internal plural2c
   [n]
   (if (or (in-nat-subset? n 1 3)
           (and  (not= (mod n 10) 4)
@@ -39,7 +39,7 @@
     1))
 
 ;; one: i % 10 = 1 and i % 100 != 11
-(defn- plural2d
+(defn ^:internal plural2d
   [n]
   (if (and (= (mod n 10) 1)
            (not= (mod n 100) 11))
@@ -48,7 +48,7 @@
 
 ;; one: i % 10 = 1 and i % 100 != 11
 ;; few: i % 10 = 2..4 and i % 100 != 12..14 
-(defn- plural3a
+(defn ^:internal plural3a
   [n]
   (if (and (= (mod n 10) 1)
            (not= (mod n 100) 11))
@@ -60,7 +60,7 @@
 
 ;; one: i = 1 and v=0
 ;; few: i = 2..4 and v=0
-(defn- plural3b
+(defn ^:internal plural3b
   [n]
   (if (= n 1)
     0
@@ -70,7 +70,7 @@
 
 ;; one: n % 10 = 1 and n % 100 != 11..19
 ;; few: n % 10 = 2..9 and n % 100 != 11..19
-(defn- plural3c
+(defn ^:internal plural3c
   [n]
   (if (and (= (mod n 10) 1)
            (not (in-nat-subset? (mod n 100) 11 19)))
@@ -82,7 +82,7 @@
 
 ;; zero: n % 10 = 0 or n % 100 = 11..19
 ;; one: n % 10 = 1 and n % 100 != 11 
-(defn- plural3d
+(defn ^:internal plural3d
   [n]
   (if (or (= (mod n 10) 0)
           (in-nat-subset? (mod n 100) 11 19))
@@ -94,7 +94,7 @@
 
 ;; one: i = 1 
 ;; few: n = 0 or n % 100 = 2..19
-(defn- plural3e
+(defn ^:internal plural3e
   [n]
   (if (= n 1)
     0
@@ -105,7 +105,7 @@
 
 ;; one: n % 10 = 1 and n % 100 != 11
 ;; few: n % 10 = 2..4 and n % 100 != 12..14
-(defn- plural3f
+(defn ^:internal plural3f
   [n]
   (if (and (= (mod n 10) 1)
            (not= (mod n 100) 11))
@@ -117,7 +117,7 @@
 
 ;; one: i = 1 
 ;; few: i % 10 = 2..4 and i % 100 != 12..14
-(defn- plural3g
+(defn ^:internal plural3g
   [n]
   (if (= n 1)
     0
@@ -129,7 +129,7 @@
 
 ;; one: i % 10 = 1 and i % 100 != 11
 ;; few: i % 10 = 2..4 and i % 100 != 12..14
-(defn- plural3h
+(defn ^:internal plural3h
   [n]
   (if (and (= (mod n 10) 1)
            (not= (mod n 100) 11))
@@ -143,7 +143,7 @@
 ;; one: n = 1,11 
 ;; two: n = 2,12
 ;; few: n = 3..10,13..19
-(defn- plural4a
+(defn ^:internal plural4a
   [n]
   (if (or (= n 1)
           (= n 11))
@@ -159,7 +159,7 @@
 ;; one: n = 1
 ;; few: n = 0 or n % 100 = 2..10
 ;; many: n % 100 = 11..19
-(defn- plural4b
+(defn ^:internal plural4b
   [n]
   (if (= n 1)
     0
@@ -173,7 +173,7 @@
 ;; one: i % 100 = 1
 ;; two: i % 100 = 2
 ;; few: i % 100 = 3..4
-(defn- plural4c
+(defn ^:internal plural4c
   [n]
   (if (= (mod n 100) 1)
     0
@@ -186,7 +186,7 @@
 ;; one: i = 1
 ;; two: i = 2
 ;; many: n != 0..10 and n % 10 = 0
-(defn- plural4d
+(defn ^:internal plural4d
   [n]
   (if (= n 1)
     0
@@ -201,7 +201,7 @@
 ;; two: n = 2
 ;; few: n = 3..6
 ;; many: n = 7..10
-(defn- plural5
+(defn ^:internal plural5
   [n]
   (if (= n 1)
     0
@@ -218,7 +218,7 @@
 ;; two: n = 2
 ;; few: n % 100 = 3..10
 ;; many: n % 100 = 11..99
-(defn- plural6
+(defn ^:internal plural6
   [n]
   (if (= n 0)
     0
@@ -232,7 +232,7 @@
             4
             5))))))
 
-(def plurals
+(def ^:internal plurals
   {:bm plural1
    :bo plural1
    :dz plural1
@@ -356,10 +356,10 @@
    :ga plural5
    :ar plural6})
 
-(def  en-plural (:en plurals))
+(def ^:internal en-plural (:en plurals))
 
-(defn plural-fn
-  "Returns a function that finds the plural translation index of language `lang` parameter."
+;; Returns a function that finds the plural translation index of language `lang` parameter.
+(defn ^:internal plural-fn
   [lang]
   ;; don't break ngettext if plural for the current locale doesn't exist
   (get plurals lang en-plural))
