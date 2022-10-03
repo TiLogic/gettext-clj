@@ -3,7 +3,7 @@
 ;; @see https://unicode-org.github.io/cldr-staging/charts/41/supplemental/language_plural_rules.html, http://unicode.org/reports/tr35/tr35-numbers.html#Operands and https://unicode.org/reports/tr35/tr35-numbers.html#51-plural-rules-syntax 
 ;; "`and` binds more tightly than `or`. So X `or` Y `and` Z is interpreted as (X `or` (Y `and` Z))."
 
-(defn ^:internal in-nat-subset?
+(defn ^:internal within?
   "Determine if integer `n` is within the subset of natural numbers {`start`, `start+1`,... `end`}."
   [n start end]
   (and (>= n start)
@@ -24,14 +24,14 @@
 ;; one: i = 0,1 / one: n = 0..1
 (defn ^:internal plural2b
   [n]
-  (if (in-nat-subset? n 0 1)
+  (if (within? n 0 1)
     0
     1))
 
 ;; one: i = 1,2,3 or i % 10 != 4,6,9
 (defn ^:internal plural2c
   [n]
-  (if (or (in-nat-subset? n 1 3)
+  (if (or (within? n 1 3)
           (and  (not= (mod n 10) 4)
                 (not= (mod n 10) 6)
                 (not= (mod n 10) 9)))
@@ -53,8 +53,8 @@
   (if (and (= (mod n 10) 1)
            (not= (mod n 100) 11))
     0
-    (if (and (in-nat-subset? (mod n 10) 2 4)
-             (not (in-nat-subset? (mod n 100) 12 14)))
+    (if (and (within? (mod n 10) 2 4)
+             (not (within? (mod n 100) 12 14)))
       1
       2)))
 
@@ -64,7 +64,7 @@
   [n]
   (if (= n 1)
     0
-    (if (in-nat-subset? n 2 4)
+    (if (within? n 2 4)
       1
       2)))
 
@@ -73,10 +73,10 @@
 (defn ^:internal plural3c
   [n]
   (if (and (= (mod n 10) 1)
-           (not (in-nat-subset? (mod n 100) 11 19)))
+           (not (within? (mod n 100) 11 19)))
     0
-    (if (and (in-nat-subset? (mod n 10) 2 9)
-             (not (in-nat-subset? (mod n 100) 11 19)))
+    (if (and (within? (mod n 10) 2 9)
+             (not (within? (mod n 100) 11 19)))
       1
       2)))
 
@@ -85,7 +85,7 @@
 (defn ^:internal plural3d
   [n]
   (if (or (= (mod n 10) 0)
-          (in-nat-subset? (mod n 100) 11 19))
+          (within? (mod n 100) 11 19))
     0
     (if (and (= (mod n 10) 1)
              (not= (mod n 100) 11))
@@ -99,7 +99,7 @@
   (if (= n 1)
     0
     (if (or (= n 0)
-            (in-nat-subset? (mod n 100) 2 19))
+            (within? (mod n 100) 2 19))
       1
       2)))
 
@@ -110,8 +110,8 @@
   (if (and (= (mod n 10) 1)
            (not= (mod n 100) 11))
     0
-    (if (and (in-nat-subset? (mod n 10) 2 4)
-             (not (in-nat-subset? (mod n 100) 12 14)))
+    (if (and (within? (mod n 10) 2 4)
+             (not (within? (mod n 100) 12 14)))
       1
       2)))
 
@@ -121,8 +121,8 @@
   [n]
   (if (= n 1)
     0
-    (if (and (in-nat-subset? (mod n 10) 2 4)
-             (not (in-nat-subset? (mod n 100) 12 14)))
+    (if (and (within? (mod n 10) 2 4)
+             (not (within? (mod n 100) 12 14)))
       1
       2)))
 
@@ -134,8 +134,8 @@
   (if (and (= (mod n 10) 1)
            (not= (mod n 100) 11))
     0
-    (if (and (in-nat-subset? (mod n 10) 2 4)
-             (not (in-nat-subset? (mod n 100) 12 14)))
+    (if (and (within? (mod n 10) 2 4)
+             (not (within? (mod n 100) 12 14)))
       1
       2)))
 
@@ -151,8 +151,8 @@
     (if (or (= n 2)
             (= n 12))
       1
-      (if (or (in-nat-subset? n 3 10)
-              (in-nat-subset? n 13 19))
+      (if (or (within? n 3 10)
+              (within? n 13 19))
         2
         3))))
 
@@ -164,9 +164,9 @@
   (if (= n 1)
     0
     (if (or (= n 0)
-            (in-nat-subset? (mod n 100) 2 10))
+            (within? (mod n 100) 2 10))
       1
-      (if (in-nat-subset? (mod n 100) 11 19)
+      (if (within? (mod n 100) 11 19)
         2
         3))))
 
@@ -179,7 +179,7 @@
     0
     (if (= (mod n 100) 2)
       1
-      (if (in-nat-subset? (mod n 100) 3 4)
+      (if (within? (mod n 100) 3 4)
         2
         3))))
 
@@ -192,7 +192,7 @@
     0
     (if (= n 2)
       1
-      (if (and (not (in-nat-subset? n 0 10))
+      (if (and (not (within? n 0 10))
                (= (mod n 10) 0))
         2
         3))))
@@ -207,9 +207,9 @@
     0
     (if (= n 2)
       1
-      (if (in-nat-subset? n 3 6)
+      (if (within? n 3 6)
         2
-        (if (in-nat-subset? n 7 10)
+        (if (within? n 7 10)
           3
           4)))))
 
@@ -226,9 +226,9 @@
       1
       (if (= n 2)
         2
-        (if (in-nat-subset? (mod n 100) 3 10)
+        (if (within? (mod n 100) 3 10)
           3
-          (if (in-nat-subset? (mod n 100) 11 99)
+          (if (within? (mod n 100) 11 99)
             4
             5))))))
 
