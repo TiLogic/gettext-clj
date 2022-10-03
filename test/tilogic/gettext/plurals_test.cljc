@@ -5,18 +5,18 @@
    [tilogic.impl.plurals :as p]
    [clojure.test :refer [deftest is testing]]))
 
-(deftest in-nat-subset?-test
+(deftest within?-test
   (testing "valid"
     (is (= true
-           (p/in-nat-subset? 0 0 0)))
+           (p/within? 0 0 0)))
     (is (= true
-           (p/in-nat-subset? 1 0 1)))
+           (p/within? 1 0 1)))
     (is (= true
-           (p/in-nat-subset? 99 0 100)))
+           (p/within? 99 0 100)))
     (is (= false
-           (p/in-nat-subset? 0 1 1)))
+           (p/within? 0 1 1)))
     (is (= false
-           (p/in-nat-subset? 2 0 1)))))
+           (p/within? 2 0 1)))))
 
 (deftest plural1-test
   (testing "valid"
