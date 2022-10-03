@@ -133,9 +133,27 @@ msgid_plural "npgettext u plural"
 msgstr[0] ""
 msgstr[1] ""
 
-#: test/cli/resources/clj/nested/test4.cljd:6
+#: test/cli/resources/clj/nested/test4.cljd:9
 msgid "gettext v "
 msgstr ""
+
+#: test/cli/resources/clj/nested/test4.cljd:12
+msgctxt "context"
+msgid "pgettext w"
+msgstr ""
+
+#: test/cli/resources/clj/nested/test4.cljd:15
+msgid "ngettext %s x"
+msgid_plural "ngettext %s x's"
+msgstr[0] ""
+msgstr[1] ""
+
+#: test/cli/resources/clj/nested/test4.cljd:18
+msgctxt "context"
+msgid "npgettext %s y"
+msgid_plural "npgettext %s y's"
+msgstr[0] ""
+msgstr[1] ""
 
 #. TRANSLATORS this is a message for you
 #: test/cli/resources/clj/test1.clj:9

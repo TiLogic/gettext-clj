@@ -1,6 +1,19 @@
 (ns cli.resources.clj.nested.test4)
 
 (declare gettext)
+(declare pgettext)
+(declare ngettext)
+(declare npgettext)
 
 (def v
-  (gettext "gettext v "))
+  (gettext "gettext v " :en-au))
+
+(def w
+  (pgettext "context" "pgettext w" :uk-uk))
+
+(def x
+  (ngettext "ngettext %s x" "ngettext %s x's" 2 :zh-tw))
+
+(def y
+  (npgettext "context" "npgettext %s y" "npgettext %s y's" 99 :fr-fr))
+
