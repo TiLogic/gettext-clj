@@ -84,7 +84,9 @@
             plurals (get-in d [:translations loc msgid1])]
         (or (get plurals ((p/plural-fn loc) n))
             ;; if no translation found return the appropriate english string
-            (get [msgid1 msgid2] (p/en-plural n) msgid1)))
+            (if (= (p/en-plural n) 0)
+              msgid1
+              msgid2)))
       msgid1)))
 
 (defn npgettext-fn
@@ -95,5 +97,7 @@
             loc (or locale (:locale d))
             plurals (get-in d [:translations loc msgctxt msgid1])]
         (or (get plurals ((p/plural-fn loc) n))
-            (get [msgid1 msgid2] (p/en-plural n) msgid1)))
+            (if (= (p/en-plural n) 0)
+              msgid1
+              msgid2)))
       msgid1)))
