@@ -1,7 +1,11 @@
 (ns tilogic.impl.plurals)
 
-;; @see https://unicode-org.github.io/cldr-staging/charts/41/supplemental/language_plural_rules.html, http://unicode.org/reports/tr35/tr35-numbers.html#Operands and https://unicode.org/reports/tr35/tr35-numbers.html#51-plural-rules-syntax 
-;; "`and` binds more tightly than `or`. So X `or` Y `and` Z is interpreted as (X `or` (Y `and` Z))."
+;; Based on Unicode CLDR Plural Rules v41.0 2022-04-04
+;; https://unicode-org.github.io/cldr-staging/charts/41/supplemental/language_plural_rules.html
+
+;; NOTES
+;; http://unicode.org/reports/tr35/tr35-numbers.html#Operands
+;; "`and` binds more tightly than `or`. So X `or` Y `and` Z is interpreted as (X `or` (Y `and` Z))." https://unicode.org/reports/tr35/tr35-numbers.html#51-plural-rules-syntax 
 
 (defn ^:internal within?
   "Determine if integer `n` is within the subset of natural numbers {`start`, `start+1`,... `end`}."
