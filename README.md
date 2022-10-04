@@ -10,10 +10,9 @@ Using standard GNU [gettext](https://www.gnu.org/software/gettext/manual/gettext
 * simple Clojure `map` data format
 * plural support for 121 languages (derrived from Unicode CLDR [data](https://unicode-org.github.io/cldr-staging/charts/41/supplemental/language_plural_rules.html))
 * context support to allow for multiple translations of the same message (ui elements, homonyms, gender etc.)
-    ```clojure
-          {{"Queue" "File d'attente"}
-            "tabs" {"Queue" "File"}}`
-    ```
+  * e.g.
+  `{{"Queue" "File d'attente"}
+    "tabs" {"Queue" "File"}}`
 
 ## Requirements
 
@@ -52,17 +51,16 @@ bash cli/gtclj -e -s path/to/clj/project/dir -o path/to/output/dir fr_CA fr_FR d
 bash cli/gtclj -e -s path/to/po/files -o path/to/output/dir
 ```
 
-### `deps.edn`
+### clojure
 
 ```clojure
+;; deps.edn
 {:paths ["src"]
- :deps { ; ...
+ :deps {,,,
         tilogic/gettext-clj
         {:git/url "https://github.com/tensegritics/ClojureDart.git"
          :sha "fcf8f3b8b2937e8a93576041ef98b623bf3de96d"}}}
 ```
-
-### clojure
 
 ```clojure
 (ns my.namespace
@@ -101,10 +99,12 @@ bash cli/gtclj -e -s path/to/po/files -o path/to/output/dir
 
 ## FAQ
 
-1. Do I have to use `po` and `JSON` files with `gtclj`?
-  No. The `gtclj` library uses a Clojure `map` as as its data format. String extraction and `po` file parsing are optional.
+### Do I have to use `po` and `JSON` files with `gtclj`?
 
-2. Why not use `edn`?
+No. The `gtclj` library uses a Clojure `map` as as its data format. String extraction and `po` file parsing are optional.
+
+### Why not use `edn`?
+
 `gtclj` was originally written for use with ClojureDart, which does not currently support `edn` .
 
 ## Development
