@@ -76,6 +76,7 @@ bash cli/gtclj -e -s path/to/po/files -o path/to/output/dir
 ;;             "bird" {"Duck!" "Canard!"}
 ;;             "mammal" {"She found a bat in her basement." ["Elle a trouvé une chauve-souris dans son sous-sol." "Elle a trouvé %s chauves-souris dans son sous-sol."]}})
 
+(gt/add-locale data :jp (json/read-str (slurp "assets/jp.json")))
 (gt/add-locale data :fr-ca (json/read-str (slurp "assets/fr-ca.json")))
 (gt/set-locale data :fr-ca)
 
@@ -102,6 +103,10 @@ bash cli/gtclj -e -s path/to/po/files -o path/to/output/dir
                      "She found a bat in her basement."
                      "She found %s bats in her basement."
                      2) 2)) ;; => "Elle a trouvé 2 chauves-souris dans son sous-sol."
+
+(defn the-last-thing
+  []
+  (pgettext "bird" "Duck!" :jp)) ;; => "鴨!"
 ```
 
 ### `JSON` file / Clojure `map` format
