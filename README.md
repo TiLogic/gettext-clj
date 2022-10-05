@@ -2,15 +2,15 @@
 
 gettext-clj ( `gtclj` ) is a library that allows developers quickly and easily internationalize their [Clojure](https://github.com/clojure/clojure), [ClojureScript](https://github.com/clojure/clojurescript) and **[ClojureDart](https://github.com/Tensegritics/ClojureDart)** projects.
 
-Using standard GNU [gettext](https://www.gnu.org/software/gettext/manual/gettext.html) utilities `gtclj` extracts translatable strings from `.clj` , `.cljc` , `.cljx` , `.cljs` and `.cljd` files into [Portable Object](https://www.gnu.org/software/gettext/manual/gettext.html#PO-Files) ( `po` , `pot` ) files. The `po` file format is widely supported by translation software, and many programming languages. Translated `po` files are parsed by `gtclj` into compact JSON (Clojure `map` ) files.
+Using standard GNU [gettext](https://www.gnu.org/software/gettext/manual/gettext.html) utilities `gtclj` extracts translatable strings from `.clj` , `.cljc` , `.cljx` , `.cljs` and `.cljd` files into [Portable Object](https://www.gnu.org/software/gettext/manual/gettext.html#PO-Files) ( `po` , `pot` ) files. The `po` file format is widely supported by translation software, and many programming languages. Translated `po` files are parsed by `gtclj` into compact, Clojure friendly JSON.
 
 ## Features
 
 * pure Clojure (no external dependencies)
-* simple Clojure `map` data format
+* simple `map` data format
 * plural support for 121 languages (derrived from Unicode CLDR [data](https://unicode-org.github.io/cldr-staging/charts/41/supplemental/language_plural_rules.html))
 * context support to allow for multiple translations of the same message (ui elements, homonyms, gender etc.)
-  * e.g.`{{"Queue" "File d'attente"} "tabs" {"Queue" "File"}}`
+  * e.g.`{{"Queue" "File d'attente"} "tab" {"Queue" "File"}}`
 * fallback to a language other than english with a simple `merge`
   * e.g.`(merge (json/read-str (slurp "be-nl.json")) (json/read-str (slurp "be-fr.json")))`
 
@@ -69,15 +69,15 @@ bash cli/gtclj -e -s path/to/po/files -o path/to/output/dir
    [tilogic.gettext-clj :as gt]))
 
 (def data (atom nil))
-;; (def fr-ca {"Hello, world!" "Salut, monde!"
-;;             "What a beautiful cat!" ["Quel beau chat!"  "Quels beaux chats!"]
-;;             "Duck!" "Baisser la tête!"
-;;             "She found a bat in her basement." ["Elle a trouvé un bâton de baseball dans son sous-sol." "Elle a trouvé des bâtons de baseball dans son sous-sol."]
-;;             "bird" {"Duck!" "Canard!"}
-;;             "mammal" {"She found a bat in her basement." ["Elle a trouvé une chauve-souris dans son sous-sol." "Elle a trouvé %s chauves-souris dans son sous-sol."]}})
+(def fr-ca {"Hello, world!" "Salut, monde!"
+            "What a beautiful cat!" ["Quel beau chat!"  "Quels beaux chats!"]
+            "Duck!" "Baisser la tête!"
+            "She found a bat in her basement." ["Elle a trouvé un bâton de baseball dans son sous-sol." "Elle a trouvé des bâtons de baseball dans son sous-sol."]
+            "bird" {"Duck!" "Canard!"}
+            "mammal" {"She found a bat in her basement." ["Elle a trouvé une chauve-souris dans son sous-sol." "Elle a trouvé %s chauves-souris dans son sous-sol."]}})
 
 (gt/add-locale data :jp (json/read-str (slurp "assets/jp.json")))
-(gt/add-locale data :fr-ca (json/read-str (slurp "assets/fr-ca.json")))
+(gt/add-locale data :fr-ca fr-ca)
 (gt/set-locale data :fr-ca)
 
 (def gettext (gt/gettext-fn data))
@@ -85,28 +85,18 @@ bash cli/gtclj -e -s path/to/po/files -o path/to/output/dir
 (def pgettext (gt/gettext-fn data))
 (def npgettext (gt/gettext-fn data))
 
-(defn something
-  []
-  (gettext "Hello, world!")) ;; => "Salut, monde!"
+(gettext "Hello, world!") ;; => "Salut, monde!"
 
-(defn what-have-you
-  []
-  (ngettext "What a beautiful cat!" "What beautiful cats!" 17)) ;; => "Quels beaux chats!"
+(ngettext "What a beautiful cat!" "What beautiful cats!" 17) ;; => "Quels beaux chats!"
 
-(defn another-thing
-  []
-  (pgettext "bird" "Duck!")) ;; => "Canard!"
+(pgettext "bird" "Duck!") ;; => "Canard!"
 
-(defn something-else
-  []
-  (format (npgettext "mammal"
-                     "She found a bat in her basement."
-                     "She found %s bats in her basement."
-                     2) 2)) ;; => "Elle a trouvé 2 chauves-souris dans son sous-sol."
+(format (npgettext "mammal"
+                    "She found a bat in her basement."
+                    "She found %s bats in her basement."
+                    2) 2) ;; => "Elle a trouvé 2 chauves-souris dans son sous-sol."
 
-(defn the-last-thing
-  []
-  (pgettext "bird" "Duck!" :jp)) ;; => "鴨!"
+(pgettext "bird" "Duck!" :jp) ;; => "鴨!"
 ```
 
 ### `JSON` file / Clojure `map` format
@@ -121,13 +111,23 @@ bash cli/gtclj -e -s path/to/po/files -o path/to/output/dir
 
 ## FAQ
 
+### Does Clojure really need another translation library?
+
+No (and yes!). There are many fine internationalization libraries[^1], but (currently) none of them work with [ClojureDart](https://github.com/Tensegritics/ClojureDart) — hence, the existence of `gettext-clj`.
+
+### Why `gettext`?
+
+`gettext`'s `.po` file format is widely used by [translation software](https://www.google.com/search?q=po+file+editor), and can be easily converted to other formats if required.
+
 ### Do I have to use `po` and `JSON` files with `gtclj`?
 
 No. The `gtclj` library uses a Clojure `map` as as its data format. String extraction and `po` file parsing are optional.
 
-### Why not use `edn`?
+### Why `JSON` instead of `edn`?
 
-`gtclj` was originally written for use with ClojureDart, which does not currently support `edn` .
+ClojureDart does not currently support `edn`.
+
+[^1]: [Tempura](https://github.com/ptaoussanis/tempura), [Tongue](https://github.com/tonsky/tongue) and [Pottery](https://github.com/brightin/pottery) to name a few.
 
 ## Development
 
