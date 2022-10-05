@@ -10,9 +10,9 @@ Using standard GNU [gettext](https://www.gnu.org/software/gettext/manual/gettext
 * simple Clojure `map` data format
 * plural support for 121 languages (derrived from Unicode CLDR [data](https://unicode-org.github.io/cldr-staging/charts/41/supplemental/language_plural_rules.html))
 * context support to allow for multiple translations of the same message (ui elements, homonyms, gender etc.)
-  * e.g.
-  `{{"Queue" "File d'attente"}
-    "tabs" {"Queue" "File"}}`
+  * e.g.`{{"Queue" "File d'attente"} "tabs" {"Queue" "File"}}`
+* fallback to a language other than english with a simple `merge`
+  * e.g.`(merge (json/read-str (slurp "be-nl.json")) (json/read-str (slurp "be-fr.json")))`
 
 ## Requirements
 
@@ -70,13 +70,19 @@ bash cli/gtclj -e -s path/to/po/files -o path/to/output/dir
 
 (def data (atom nil))
 ;; (def fr-ca {"Hello, world!" "Salut, monde!"
-;;             "What a beautiful cat!" ["Quel beau chat!"  "Quels beaux chats!"]})
+;;             "What a beautiful cat!" ["Quel beau chat!"  "Quels beaux chats!"]
+;;             "Duck!" "Baisser la tête!"
+;;             "She found a bat in her basement." ["Elle a trouvé un bâton de baseball dans son sous-sol." "Elle a trouvé des bâtons de baseball dans son sous-sol."]
+;;             "bird" {"Duck!" "Canard!"}
+;;             "mammal" {"She found a bat in her basement." ["Elle a trouvé une chauve-souris dans son sous-sol." "Elle a trouvé %s chauves-souris dans son sous-sol."]}})
 
 (gt/add-locale data :fr-ca (json/read-str (slurp "assets/fr-ca.json")))
 (gt/set-locale data :fr-ca)
 
 (def gettext (gt/gettext-fn data))
 (def ngettext (gt/gettext-fn data))
+(def pgettext (gt/gettext-fn data))
+(def npgettext (gt/gettext-fn data))
 
 (defn something
   []
@@ -85,6 +91,17 @@ bash cli/gtclj -e -s path/to/po/files -o path/to/output/dir
 (defn what-have-you
   []
   (ngettext "What a beautiful cat!" "What beautiful cats!" 17)) ;; => "Quels beaux chats!"
+
+(defn another-thing
+  []
+  (pgettext "bird" "Duck!")) ;; => "Canard!"
+
+(defn something-else
+  []
+  (format (npgettext "mammal"
+                     "She found a bat in her basement."
+                     "She found %s bats in her basement."
+                     2) 2)) ;; => "Elle a trouvé 2 chauves-souris dans son sous-sol."
 ```
 
 ### `JSON` file / Clojure `map` format
