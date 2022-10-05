@@ -122,3 +122,7 @@ No. The `gtclj` library uses a Clojure `map` as as its data format. String extra
 #### ClojureDart
 
  `sh test/cljd/run.sh`
+
+#### cli
+
+ `bash test/cli/run.sh`
