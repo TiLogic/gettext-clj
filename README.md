@@ -41,14 +41,14 @@ cd gettext-clj
 
 ```bash
 # Extract po files (locales are optional)
-bash cli/gtclj -e -s path/to/clj/project/dir -o path/to/output/dir fr_CA fr_FR de_DE
+bash cli/gtclj -p -s path/to/clj/project/dir -o path/to/output/dir fr_CA fr_FR de_DE
 ```
 
 ### parse
 
 ```bash
 # Parse to JSON
-bash cli/gtclj -e -s path/to/po/files -o path/to/output/dir
+bash cli/gtclj -j -s path/to/po/files -o path/to/output/dir
 ```
 
 ### clojure
