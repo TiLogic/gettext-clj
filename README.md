@@ -58,7 +58,7 @@ bash cli/gtclj -j -s path/to/po/files -o path/to/output/dir
 {:paths ["src"]
  :deps {,,,
         tilogic/gettext-clj
-        {:git/url "https://github.com/tensegritics/ClojureDart.git"
+        {:git/url "https://github.com/TiLogic/gettext-clj.git"
          :sha "fcf8f3b8b2937e8a93576041ef98b623bf3de96d"}}}
 ```
 
