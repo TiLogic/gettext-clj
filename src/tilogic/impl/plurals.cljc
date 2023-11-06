@@ -1,7 +1,9 @@
 (ns tilogic.impl.plurals)
 
 ;; Based on Unicode CLDR Plural Rules v41.0 2022-04-04
-;; https://unicode-org.github.io/cldr-staging/charts/41/supplemental/language_plural_rules.html
+;; https://www.unicode.org/cldr/charts/41/supplemental/language_plural_rules.html
+;; Copyright © 1991-2022 Unicode, Inc., 2023 TiLogic. All rights reserved.
+;; For terms of use, see http://www.unicode.org/copyright.html
 
 ;; NOTES
 ;; http://unicode.org/reports/tr35/tr35-numbers.html#Operands
@@ -130,7 +132,6 @@
       1
       2)))
 
-
 ;; one: i % 10 = 1 and i % 100 != 11
 ;; few: i % 10 = 2..4 and i % 100 != 12..14
 (defn ^:internal plural3h
@@ -142,7 +143,6 @@
              (not (within? (mod n 100) 12 14)))
       1
       2)))
-
 
 ;; one: n = 1,11 
 ;; two: n = 2,12
